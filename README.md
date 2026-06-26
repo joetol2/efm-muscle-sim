@@ -4,12 +4,6 @@ A Python simulation of electrofluidic fiber muscle style actuation for robotics 
 
 Not affiliated with MIT, Politecnico di Bari, Science Robotics, or the original paper authors. This is an independent abstraction built from public information in the paper and MIT news release.
 
-## What it models
-
-Each muscle bundle is treated as a compliant linear actuator with first-order activation lag. You set a control input between 0 and 1, and the model handles contraction rate, force output, passive compliance, and damping. Two muscles in opposition drive a single-joint arm model.
-
-It does not simulate pump internals, fluid pressure, cavitation, or material deformation. The force and damping values are placeholders until someone fits them against the public Zenodo dataset.
-
 ## Arm model
 
 The MuJoCo placeholder arm: upper arm and forearm as capsules, hinge elbow joint, with flexor (orange) and extensor (yellow) tendons shown at 65 degrees bend. Gain values are placeholders pending parameter fitting.
@@ -25,6 +19,12 @@ The MuJoCo placeholder arm: upper arm and forearm as capsules, hinge elbow joint
 **Antagonistic joint demo** -- flexor and extensor activations alternate to bend and release the joint. Joint angle shown in degrees alongside each muscle activation level.
 
 ![Antagonistic joint demo](docs/images/efm_antagonistic_joint_demo.png)
+
+## What it models
+
+Each muscle bundle is treated as a compliant linear actuator with first-order activation lag. You set a control input between 0 and 1, and the model handles contraction rate, force output, passive compliance, and damping. Two muscles in opposition drive a single-joint arm model.
+
+It does not simulate pump internals, fluid pressure, cavitation, or material deformation. The force and damping values are placeholders until someone fits them against the public Zenodo dataset.
 
 ## Setup
 
