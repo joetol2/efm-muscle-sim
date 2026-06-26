@@ -1,0 +1,75 @@
+<mujoco model="efm_biceps_triceps_arm">
+  <!--
+    Approximate biceps/triceps style arm model for electrofluidic fiber muscle concept exploration.
+
+    This is a mechanical approximation only. It is not a reconstruction of the MIT
+    experimental hardware or its calibration. The actuator gain values are placeholders
+    and should be updated after fitting the Python actuator model to experimental data.
+
+    Requirements: MuJoCo 2.3 or later.
+    Coordinate system: Z-up.
+  -->
+
+  <compiler angle="degree" coordinate="local"/>
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="RK4"/>
+
+  <default>
+    <geom type="capsule" density="500" friction="0.8 0.1 0.1"/>
+    <joint damping="0.05" armature="0.001"/>
+    <site size="0.006"/>
+  </default>
+
+  <worldbody>
+    <light pos="0 -2 2" dir="0 1 -1"/>
+    <body name="upper_arm" pos="0 0 0.35">
+      <geom name="upper_arm_geom" fromto="0 0 0 0 0 0.25" size="0.018"/>
+      <site name="flex_origin" pos="0 0.040 0.020"/>
+      <site name="extend_origin" pos="0 -0.040 0.020"/>
+
+      <body name="forearm" pos="0 0 0.25">
+        <joint name="elbow" type="hinge" axis="1 0 0" range="-20 130" limited="true"/>
+        <geom name="forearm_geom" fromto="0 0 0 0 0 0.25" size="0.014"/>
+        <site name="flex_insert" pos="0 0.040 0.045"/>
+        <site name="extend_insert" pos="0 -0.040 0.045"/>
+      </body>
+    </body>
+  </worldbody>
+
+  <tendon>
+    <spatial name="flex_tendon" limited="false" width="0.003">
+      <site site="flex_origin"/>
+      <site site="flex_insert"/>
+    </spatial>
+    <spatial name="extend_tendon" limited="false" width="0.003">
+      <site site="extend_origin"/>
+      <site site="extend_insert"/>
+    </spatial>
+  </tendon>
+
+  <actuator>
+    <!--
+      General actuators approximate EFM pull force with first-order activation lag.
+      dynprm="0.30" approximates the 0.3 s response time constant from public reference values.
+      gainprm="30" is a placeholder. Update after fitting max_force_per_fiber_n from dataset.
+    -->
+    <general name="efm_flexor"
+             tendon="flex_tendon"
+             ctrlrange="0 1"
+             ctrllimited="true"
+             dyntype="filter"
+             dynprm="0.30"
+             gaintype="fixed"
+             gainprm="30"
+             biastype="none"/>
+    <general name="efm_extensor"
+             tendon="extend_tendon"
+             ctrlrange="0 1"
+             ctrllimited="true"
+             dyntype="filter"
+             dynprm="0.30"
+             gaintype="fixed"
+             gainprm="30"
+             biastype="none"/>
+  </actuator>
+
+</mujoco>
