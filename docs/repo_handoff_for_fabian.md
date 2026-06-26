@@ -1,4 +1,4 @@
-# Repository handoff notes for Fabian
+# Repository handoff notes
 
 This document is a plain-language orientation for taking over or continuing
 work on this repository.
