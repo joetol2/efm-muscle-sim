@@ -83,12 +83,3 @@ Explains the model chain and limitations in more detail.
 docs/validation_plan.md
 The step-by-step process for fitting parameters to experimental data.
 
-## Questions to resolve
-
-- What specific hardware configuration will this model be used for? Bundle count,
-  fiber length, and target load will determine which experimental condition to fit.
-- Is the goal to use this model for arm control, gripper design, or something else?
-  This affects whether the joint model is the right abstraction or whether a
-  different geometry is needed.
-- Is MuJoCo the right downstream simulator, or is the Python model sufficient for
-  the control work being planned?
