@@ -21,7 +21,7 @@ outside the scope of a system-level robotics simulation tool.
 
 ## Default public parameters used
 
-The defaults in ElectroFluidicMuscleParams are seeded from the public paper and
+The defaults in `ElectroFluidicMuscleParams` are seeded from the public paper and
 MIT news release:
 
 - max_contraction_strain: 0.20 (20% contraction, public reference)
@@ -56,13 +56,16 @@ reconstruction of the experimental hardware or its calibration.
 Variable moment arm geometry, tendon wrapping, and anatomical routing are not
 modeled.
 
+For MuJoCo-specific integration gaps and how to address them, see
+`docs/mujoco_integration.md`.
+
 ## Recommended next steps
 
-1. Download the Zenodo v2 dataset using scripts/fetch_zenodo_dataset.py.
+1. Download the Zenodo v2 dataset using `scripts/fetch_zenodo_dataset.py`.
 2. Inspect force-displacement and step-response curves in the dataset.
-3. Fit max_force_per_fiber_n, passive_stiffness_n_per_m, and damping_n_s_per_m
+3. Fit `max_force_per_fiber_n`, `passive_stiffness_n_per_m`, and `damping_n_s_per_m`
    to a specific experimental condition.
 4. Validate the fitted model by comparing simulated step responses to measured ones.
-5. Review the MuJoCo XML and update geometry to match a specific hardware target.
+5. Update the MuJoCo XML actuator gain to match fitted force values.
 
-See docs/validation_plan.md for a more detailed validation workflow.
+See `docs/validation_plan.md` for a more detailed validation workflow.
