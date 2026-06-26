@@ -106,6 +106,3 @@ python scripts/fetch_zenodo_dataset.py
 
 See NOTICE.md for attribution and non-affiliation details.
 
-## License
-
-MIT. See LICENSE.
