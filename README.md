@@ -12,11 +12,11 @@ The MuJoCo placeholder arm: upper arm and forearm as capsules, hinge elbow joint
 
 ## Simulation outputs
 
-**Single muscle step response** -- activation builds with the 0.3 s lag, contraction strain follows, normalized force tracks activation.
+**Single muscle step response** activation builds with the 0.3 s lag, contraction strain follows, normalized force tracks activation.
 
 ![Step response](docs/images/efm_actuator_step_response.png)
 
-**Antagonistic joint demo** -- flexor and extensor activations alternate to bend and release the joint. Joint angle shown in degrees alongside each muscle activation level.
+**Antagonistic joint demo** flexor and extensor activations alternate to bend and release the joint. Joint angle shown in degrees alongside each muscle activation level.
 
 ![Antagonistic joint demo](docs/images/efm_antagonistic_joint_demo.png)
 
