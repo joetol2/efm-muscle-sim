@@ -4,6 +4,22 @@ A Python simulation of electrofluidic fiber muscle style actuation for robotics 
 
 Not affiliated with MIT, Politecnico di Bari, Science Robotics, or the original paper authors. This is an independent abstraction built from public information in the paper and MIT news release.
 
+## Arm model
+
+The MuJoCo placeholder arm: upper arm and forearm as capsules, hinge elbow joint, with flexor (orange) and extensor (yellow) tendons shown at 65 degrees bend. Gain values are placeholders pending parameter fitting.
+
+![MuJoCo arm schematic](docs/images/mujoco_arm_render.png)
+
+## Simulation outputs
+
+**Single muscle step response** -- activation builds with the 0.3 s lag, contraction strain follows, normalized force tracks activation.
+
+![Step response](docs/images/efm_actuator_step_response.png)
+
+**Antagonistic joint demo** -- flexor and extensor activations alternate to bend and release the joint. Joint angle shown in degrees alongside each muscle activation level.
+
+![Antagonistic joint demo](docs/images/efm_antagonistic_joint_demo.png)
+
 ## What it models
 
 Each muscle bundle is treated as a compliant linear actuator with first-order activation lag. You set a control input between 0 and 1, and the model handles contraction rate, force output, passive compliance, and damping. Two muscles in opposition drive a single-joint arm model.
