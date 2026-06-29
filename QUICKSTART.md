@@ -66,33 +66,33 @@ All 43 tests should pass.
 
 ```
 src/efm_muscle_sim/
-    parameters.py       -- ElectroFluidicMuscleParams, AntagonisticJointParams
-    actuator.py         -- ElectroFluidicMuscle (single bundle)
-    joint.py            -- AntagonisticJoint (flexor/extensor pair)
-    soft_arm.py         -- SoftArm2D (2-DOF planar arm)
-    training_env.py     -- SoftArmReachEnv (Gymnasium environment)
+    parameters.py      : ElectroFluidicMuscleParams, AntagonisticJointParams
+    actuator.py        : ElectroFluidicMuscle (single bundle)
+    joint.py           : AntagonisticJoint (flexor/extensor pair)
+    soft_arm.py        : SoftArm2D (2-DOF planar arm)
+    training_env.py    : SoftArmReachEnv (Gymnasium environment)
 
 examples/
-    run_actuator_step_response.py       -- single muscle step response
-    run_antagonistic_joint_demo.py      -- 1-DOF joint alternating control
-    run_parameter_sweep.py              -- bundle count and force sweep
-    run_2dof_soft_arm_rollout.py        -- 2-DOF scripted IK+PD demo
-    render_2dof_soft_arm_gif.py         -- GIF renderer for the rollout
-    train_2dof_soft_arm_ppo.py          -- PPO training with stable-baselines3
+    run_actuator_step_response.py      : single muscle step response
+    run_antagonistic_joint_demo.py     : 1-DOF joint alternating control
+    run_parameter_sweep.py             : bundle count and force sweep
+    run_2dof_soft_arm_rollout.py       : 2-DOF scripted IK+PD demo
+    render_2dof_soft_arm_gif.py        : GIF renderer for the rollout
+    train_2dof_soft_arm_ppo.py         : PPO training with stable-baselines3
 
 models/mujoco/
-    efm_biceps_triceps_arm.xml          -- MuJoCo placeholder arm (gain = placeholder)
+    efm_biceps_triceps_arm.xml         : MuJoCo placeholder arm (gain = placeholder)
 
 docs/
-    mujoco_integration.md               -- how to wire Python model to MuJoCo
-    2dof_soft_arm_training_demo.md      -- full 2-DOF engineering writeup
-    repo_handoff.md                     -- engineer orientation doc
+    mujoco_integration.md              : how to wire Python model to MuJoCo
+    2dof_soft_arm_training_demo.md     : full 2-DOF engineering writeup
+    repo_handoff.md                    : engineer orientation doc
 
-tests/                                  -- 43 pytest tests
-outputs/                                -- CSV outputs (git-ignored)
-plots/                                  -- plot and GIF outputs (git-ignored)
+tests/                                 : 43 pytest tests
+outputs/                               : CSV outputs (git-ignored)
+plots/                                 : plot and GIF outputs (git-ignored)
 ```
 
 ## What the values mean
 
-The contraction strain (20%), response time (0.3 s), fiber diameter (2 mm), and power density (50 W/kg) come from the published paper. Force, stiffness, and damping are placeholders -- see `src/efm_muscle_sim/parameters.py` for which values need fitting and `scripts/fit_parameters.py` for the fitting workflow once you have the Zenodo dataset.
+The contraction strain (20%), response time (0.3 s), fiber diameter (2 mm), and power density (50 W/kg) come from the published paper. Force, stiffness, and damping are placeholders: see `src/efm_muscle_sim/parameters.py` for which values need fitting and `scripts/fit_parameters.py` for the fitting workflow once you have the Zenodo dataset.

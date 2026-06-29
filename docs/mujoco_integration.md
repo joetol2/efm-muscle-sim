@@ -8,7 +8,7 @@ This document explains what the XML does, what needs to change before it is usef
 
 ## What the XML currently does
 
-Two spatial tendons span from origin sites on the upper arm body to insertion sites on the forearm body. Each tendon is driven by a `general` actuator with `dyntype="filter"`, which gives first-order activation lag inside MuJoCo's own integrator. The time constant (`dynprm="0.30"`) matches the public reference response time for these muscles. The gain (`gainprm="30"`) is a placeholder -- it was not derived from the paper or dataset.
+Two spatial tendons span from origin sites on the upper arm body to insertion sites on the forearm body. Each tendon is driven by a `general` actuator with `dyntype="filter"`, which gives first-order activation lag inside MuJoCo's own integrator. The time constant (`dynprm="0.30"`) matches the public reference response time for these muscles. The gain (`gainprm="30"`) is a placeholder. It was not derived from the paper or dataset.
 
 ## What needs to happen before this is useful
 

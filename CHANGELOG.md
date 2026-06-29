@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 -- 2026-06-29
+## 0.2.0  2026-06-29
 
 ### Added
 - `SoftArm2D`: 2-DOF planar soft arm with shoulder and elbow antagonistic joints, forward kinematics, endpoint Jacobian, and optional contact/disturbance input (`src/efm_muscle_sim/soft_arm.py`)
@@ -14,7 +14,7 @@
 - `CHANGELOG.md`
 - 3 new smoke tests for the arm and environment (43 total)
 
-## 0.1.0 -- 2026-06-26
+## 0.1.0  2026-06-26
 
 ### Added
 - `ElectroFluidicMuscle`: single-bundle actuator model with first-order activation lag, passive compliance, and damping

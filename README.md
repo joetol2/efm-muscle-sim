@@ -12,7 +12,7 @@ Not affiliated with MIT, Politecnico di Bari, Science Robotics, or the original 
 
 ![2-DOF arm model diagram](docs/images/efm_2dof_soft_arm_model_diagram.png)
 
-A two-joint planar arm -- shoulder and elbow -- each driven by an opposing pair of EFM muscles, built directly on top of the actuator and joint model below. Instead of a single actuator moving in isolation, four muscles coordinate through two joints to move a wrist endpoint toward a target.
+A two-joint planar arm (shoulder and elbow) each driven by an opposing pair of EFM muscles, built directly on top of the actuator and joint model below. Instead of a single actuator moving in isolation, four muscles coordinate through two joints to move a wrist endpoint toward a target.
 
 This is a simulation and training prototype, not a validated physical simulator. The concept render below is for presentation context only, not hardware.
 
@@ -30,11 +30,11 @@ This is a simulation and training prototype, not a validated physical simulator.
 
 ![2-DOF soft arm rollout](docs/images/efm_2dof_soft_arm_rollout.gif)
 
-**2-DOF arm geometry** -- shoulder and elbow joints, link lengths, and wrist endpoint.
+**2-DOF arm geometry.** Shoulder and elbow joints, link lengths, and wrist endpoint.
 
 ![2-DOF arm render](docs/images/efm_2dof_soft_arm_model_render.png)
 
-**Concept render** -- 3D illustration for presentation context only. Not a photo of hardware.
+**Concept render.** 3D illustration for presentation context only. Not a photo of hardware.
 
 ![Concept render](docs/images/robotic_arm_on_sleek_tabletop.png)
 
@@ -86,17 +86,17 @@ print(state["total_force_n"])
 
 ## MuJoCo
 
-The XML model is at `models/mujoco/efm_biceps_triceps_arm.xml`. It loads and runs, but the actuator gain is a placeholder and the Python model is not yet wired to it. Read `docs/mujoco_integration.md` before using this in a real sim -- it covers gain calculation, controller wiring, and what still needs fitting.
+The XML model is at `models/mujoco/efm_biceps_triceps_arm.xml`. It loads and runs, but the actuator gain is a placeholder and the Python model is not yet wired to it. Read `docs/mujoco_integration.md` before using this in a real sim. It covers gain calculation, controller wiring, and what still needs fitting.
 
 ![MuJoCo placeholder arm](docs/images/mujoco_arm_render.png)
 
 ## Simulation outputs
 
-**Single muscle step response** -- activation builds with the 0.3 s lag, contraction strain follows, force tracks activation.
+**Single muscle step response.** Activation builds with the 0.3 s lag, contraction strain follows, force tracks activation.
 
 ![Step response](docs/images/efm_actuator_step_response.png)
 
-**Antagonistic joint demo** -- flexor and extensor activations alternate to bend and release the joint.
+**Antagonistic joint demo.** Flexor and extensor activations alternate to bend and release the joint.
 
 ![Antagonistic joint demo](docs/images/efm_antagonistic_joint_demo.png)
 
