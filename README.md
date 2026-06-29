@@ -4,17 +4,61 @@ A Python simulation of electrofluidic fiber muscle (EFM) style actuation for rob
 
 Not affiliated with MIT, Politecnico di Bari, Science Robotics, or the original paper authors. This is an independent abstraction built from public information in the paper and MIT news release.
 
+## 2-DOF soft arm training demo
+
+![2-DOF arm model diagram](docs/images/efm_2dof_soft_arm_model_diagram.png)
+
+A two-joint planar arm -- shoulder and elbow -- each driven by an opposing pair of EFM muscles, built directly on top of the actuator and joint model described below. Instead of a single actuator moving in isolation, four muscles coordinate through two joints to move a wrist endpoint toward a target.
+
+This is a simulation and training prototype. It proves the actuator model is wired into trainable, visible behavior. It does not turn the EFM model into a validated physical simulator, and the concept render further down is for presentation context only, not hardware.
+
+**Geometry.** Two rigid links (0.30 m upper arm, 0.24 m forearm) connected by a shoulder joint and an elbow joint. Each joint has its own moment arm, inertia, and damping, and is driven by a flexor/extensor muscle pair using the same `AntagonisticJoint` model used in the 1-DOF demo.
+
+**Control interface.** A 4-value action in [0, 1]: `[shoulder_flex, shoulder_extend, elbow_flex, elbow_extend]`. Co-contracting both muscles in a pair stiffens the joint without necessarily moving it, the same way it would on the physical actuator.
+
+**Training environment.** `SoftArmReachEnv` is a Gymnasium-compatible environment with:
+- a 16-value observation: joint angles, joint velocities, wrist position, target position, position error, contact force, and all four muscle activation levels
+- a reward that combines distance to target, a velocity penalty, an action-effort penalty, and a co-contraction penalty, with a bonus for holding the target
+- optional dynamics randomization (muscle response time, max force, stiffness, damping) so a trained policy is not overfit to one fixed actuator
+- optional contact, modeled as a spring-damper wall, so the arm can be trained against pushback at the endpoint, not just free-space reaching
+
+**Scripted demo result.** A deterministic inverse-kinematics-plus-PD controller (not a trained policy, just a smoke test) reaches within 0.009 m of the target in under 300 simulation steps.
+
+### Run the scripted rollout
+
+```
+pip install -e .
+python examples/run_2dof_soft_arm_rollout.py
+```
+
+Writes `outputs/efm_2dof_soft_arm_rollout.csv` and `plots/efm_2dof_soft_arm_rollout.png`.
+
+### Train a policy with PPO
+
+```
+pip install gymnasium stable-baselines3
+python examples/train_2dof_soft_arm_ppo.py
+```
+
+Writes a trained policy to `outputs/models/efm_2dof_soft_arm_ppo.zip` and an evaluation CSV.
+
+Full writeup, including the engineering caveats on what still needs fitting before this touches hardware claims: `docs/2dof_soft_arm_training_demo.md`.
+
+**2-DOF soft arm geometry** -- shoulder and elbow joints, link lengths, and wrist endpoint.
+
+![2-DOF arm render](docs/images/efm_2dof_soft_arm_model_render.png)
+
+**Concept render** -- 3D illustration for presentation context only. Not a photo of hardware and not a validated physical result.
+
+![Concept render](docs/images/robotic_arm_on_sleek_tabletop.png)
+
+---
+
 ## What it models
 
 Each muscle bundle is treated as a compliant linear actuator with first-order activation lag. You set a control input between 0 and 1, and the model handles contraction rate, force output, passive compliance, and damping. Two muscles in opposition drive a single-joint arm model.
 
 It does not simulate pump internals, fluid pressure, cavitation, or material deformation. The force and damping values are placeholders until someone fits them against the public Zenodo dataset.
-
-## 2-DOF soft arm extension
-
-A two-joint planar arm -- shoulder and elbow -- each driven by an opposing muscle pair, built on top of the same actuator and joint model above. A scripted controller uses inverse kinematics and PD control to reach a target, and a Gymnasium-compatible environment is included for RL training.
-
-This is a simulation and training prototype, not a validated physical simulator. See `docs/2dof_soft_arm_training_demo.md` for the full writeup.
 
 ## Setup
 
@@ -48,27 +92,13 @@ python examples/run_parameter_sweep.py
 
 Each script writes a CSV to `outputs/` and a plot to `plots/`. The parameter sweep runs bundle count and force combinations and shows how much the output changes across placeholder assumptions.
 
-**2-DOF soft arm scripted rollout**
-
-```
-python examples/run_2dof_soft_arm_rollout.py
-```
-
-Writes `outputs/efm_2dof_soft_arm_rollout.csv` and `plots/efm_2dof_soft_arm_rollout.png`. The wrist reaches within 0.009 m of the target in under 300 steps.
-
-**2-DOF soft arm PPO training**
-
-```
-python examples/train_2dof_soft_arm_ppo.py
-```
-
-Writes a trained policy to `outputs/models/efm_2dof_soft_arm_ppo.zip` and an eval CSV.
-
 **Tests**
 
 ```
 pytest tests/ -v
 ```
+
+43 tests cover the actuator, joint, parameters, simulation outputs, and the 2-DOF arm and environment.
 
 ## Using the Python model directly
 
@@ -90,11 +120,11 @@ print(state["total_force_n"])
 
 The XML model is at `models/mujoco/efm_biceps_triceps_arm.xml`. It loads and runs, but the actuator gain is a placeholder and the Python model is not yet wired to it. Before using this in a real sim, read `docs/mujoco_integration.md` -- it covers what the gain represents, how to update it after fitting, and how to wire a controller.
 
-## Simulation outputs
-
 **MuJoCo placeholder arm** -- upper arm and forearm as capsules, hinge elbow joint, with flexor (orange) and extensor (yellow) tendons shown at 65 degrees bend. Gain values are placeholders pending parameter fitting.
 
 ![MuJoCo arm schematic](docs/images/mujoco_arm_render.png)
+
+## Simulation outputs
 
 **Single muscle step response** -- activation builds with the 0.3 s lag, contraction strain follows, normalized force tracks activation.
 
@@ -103,18 +133,6 @@ The XML model is at `models/mujoco/efm_biceps_triceps_arm.xml`. It loads and run
 **Antagonistic joint demo** -- flexor and extensor activations alternate to bend and release the joint. Joint angle shown in degrees alongside each muscle activation level.
 
 ![Antagonistic joint demo](docs/images/efm_antagonistic_joint_demo.png)
-
-**2-DOF soft arm model diagram** -- observation, action, and reward structure for the reaching environment.
-
-![2-DOF arm model diagram](docs/images/efm_2dof_soft_arm_model_diagram.png)
-
-**2-DOF soft arm geometry** -- shoulder and elbow joints, link lengths, and wrist endpoint.
-
-![2-DOF arm render](docs/images/efm_2dof_soft_arm_model_render.png)
-
-**Concept render** -- 3D illustration for presentation context only. Not a photo of hardware and not a validated physical result.
-
-![Concept render](docs/images/robotic_arm_on_sleek_tabletop.png)
 
 ## Parameters
 
