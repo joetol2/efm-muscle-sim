@@ -20,6 +20,39 @@ The MuJoCo placeholder arm: upper arm and forearm as capsules, hinge elbow joint
 
 ![Antagonistic joint demo](docs/images/efm_antagonistic_joint_demo.png)
 
+## 2-DOF soft arm training demo
+
+The model now includes a two-joint planar arm -- shoulder and elbow -- each driven by opposing muscle pairs. A scripted controller uses inverse kinematics and PD control to reach a target, and a Gymnasium-compatible environment is included for RL training.
+
+![2-DOF arm model diagram](docs/images/efm_2dof_soft_arm_model_diagram.png)
+
+![2-DOF arm render](docs/images/efm_2dof_soft_arm_model_render.png)
+
+![Concept render](docs/images/robotic_arm_on_sleek_tabletop.png)
+*Concept render -- simulation and training prototype only, not validated hardware.*
+
+### Quick start
+
+```
+pip install -e .
+python examples/run_2dof_soft_arm_rollout.py
+```
+
+Writes `outputs/efm_2dof_soft_arm_rollout.csv` and `plots/efm_2dof_soft_arm_rollout.png`. The wrist reaches within 0.009 m of the target in under 300 steps.
+
+### Train with PPO
+
+```
+pip install gymnasium stable-baselines3
+python examples/train_2dof_soft_arm_ppo.py
+```
+
+Writes a trained policy to `outputs/models/efm_2dof_soft_arm_ppo.zip` and an eval CSV.
+
+See `docs/2dof_soft_arm_training_demo.md` for full details.
+
+---
+
 ## What it models
 
 Each muscle bundle is treated as a compliant linear actuator with first-order activation lag. You set a control input between 0 and 1, and the model handles contraction rate, force output, passive compliance, and damping. Two muscles in opposition drive a single-joint arm model.
