@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "efm-muscle-sim"
-version = "0.1.0"
+version = "0.2.0"
 description = "Behavioral simulation abstraction for electrofluidic fiber muscle style actuation"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -16,6 +16,8 @@ dependencies = [
 
 [project.optional-dependencies]
 mujoco = ["mujoco"]
+training = ["gymnasium>=0.29", "stable-baselines3>=2.0"]
+fitting = ["scipy>=1.10"]
 dev = ["pytest"]
 
 [tool.setuptools.packages.find]
