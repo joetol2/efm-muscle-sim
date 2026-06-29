@@ -2,6 +2,8 @@
 
 A Python simulation of electrofluidic fiber muscle (EFM) style actuation for robotics concept work.
 
+**New here? Start with [QUICKSTART.md](QUICKSTART.md).**
+
 Not affiliated with MIT, Politecnico di Bari, Science Robotics, or the original paper authors. This is an independent abstraction built from public information in the paper and MIT news release.
 
 ## 2-DOF soft arm training demo
@@ -23,6 +25,8 @@ This is a simulation and training prototype. It proves the actuator model is wir
 - optional contact, modeled as a spring-damper wall, so the arm can be trained against pushback at the endpoint, not just free-space reaching
 
 **Scripted demo result.** A deterministic inverse-kinematics-plus-PD controller (not a trained policy, just a smoke test) reaches within 0.009 m of the target in under 300 simulation steps.
+
+![2-DOF soft arm rollout](docs/images/efm_2dof_soft_arm_rollout.gif)
 
 ### Run the scripted rollout
 
