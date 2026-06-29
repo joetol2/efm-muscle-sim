@@ -46,6 +46,42 @@ Full engineering writeup: `docs/2dof_soft_arm_training_demo.md`
 
 ---
 
+## Repo layout
+
+### Core package: `src/efm_muscle_sim/`
+
+| File | What it does |
+|---|---|
+| `parameters.py` | `ElectroFluidicMuscleParams` and `AntagonisticJointParams` dataclasses. Holds all tunable values: contraction strain, response time, force, stiffness, damping. Values from the paper are marked; placeholders are labeled. |
+| `actuator.py` | `ElectroFluidicMuscle` -- single muscle bundle model. Takes a control input 0-1 and steps forward in time, producing activation, contraction, and force. |
+| `joint.py` | `AntagonisticJoint` -- one degree of freedom hinge driven by a flexor/extensor muscle pair. Handles torque balance, damping, and angle limits. |
+| `soft_arm.py` | `SoftArm2D` -- two-link planar arm with shoulder and elbow joints, each an `AntagonisticJoint`. Includes forward kinematics and an endpoint Jacobian for force-to-torque mapping. |
+| `training_env.py` | `SoftArmReachEnv` -- Gymnasium-compatible environment wrapping `SoftArm2D`. 16-value observation, 4-value action, configurable reward, dynamics randomization, and optional contact wall. |
+| `simulation.py` | `run_simulation` and `save_csv` utilities for driving any model through a control sequence and writing results. |
+| `plotting.py` | `plot_actuator_response` and `plot_joint_response` for generating the 1-DOF output plots. |
+| `units.py` | Unit conversion helpers (rad/deg, N/kgf, m/mm). |
+
+### Examples: `examples/`
+
+| File | What it does |
+|---|---|
+| `run_2dof_soft_arm_rollout.py` | Scripted IK+PD demo of the 2-DOF arm reaching a target. No training required. Writes CSV and PNG. |
+| `render_2dof_soft_arm_gif.py` | Same rollout rendered as an animated GIF. |
+| `train_2dof_soft_arm_ppo.py` | PPO training loop using stable-baselines3. Requires `pip install gymnasium stable-baselines3`. |
+| `run_actuator_step_response.py` | Single muscle step response demo. |
+| `run_antagonistic_joint_demo.py` | 1-DOF joint alternating flexor/extensor demo. |
+| `run_parameter_sweep.py` | Sweeps bundle count and force to show sensitivity to placeholder values. |
+
+### Documentation: `docs/`
+
+| File | What it covers |
+|---|---|
+| `2dof_soft_arm_training_demo.md` | Full writeup: model structure, action/obs/reward tables, dynamics randomization, scripted vs RL, what the demo does not prove. |
+| `mujoco_integration.md` | How to wire the Python model to the MuJoCo XML arm. Covers gain calculation and controller wiring. |
+| `repo_handoff.md` | Engineer orientation: where to start, what needs fitting, what is and is not validated. |
+
+---
+
 ## What it models
 
 Each muscle bundle is a compliant linear actuator with first-order activation lag. You set a control input between 0 and 1, and the model handles contraction rate, force output, passive compliance, and damping. Two muscles in opposition drive a single-joint arm model.
