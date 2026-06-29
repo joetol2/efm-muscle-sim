@@ -80,6 +80,16 @@ The XML model is at `models/mujoco/efm_biceps_triceps_arm.xml`. It loads and run
 
 The contraction strain (20%), response time (0.3 s), fiber diameter (2 mm), and power density (50 W/kg) come from the public paper summary. Force, stiffness, and damping are placeholders. See `src/efm_muscle_sim/parameters.py` for the full list with comments on which values need fitting.
 
+## Simulation outputs
+
+**Single muscle step response** activation builds with the 0.3 s lag, contraction strain follows, normalized force tracks activation.
+
+![Step response](docs/images/efm_actuator_step_response.png)
+
+**Antagonistic joint demo** flexor and extensor activations alternate to bend and release the joint. Joint angle shown in degrees alongside each muscle activation level.
+
+![Antagonistic joint demo](docs/images/efm_antagonistic_joint_demo.png)
+
 ## Data sources
 
 Science Robotics, DOI: 10.1126/scirobotics.ady6438
